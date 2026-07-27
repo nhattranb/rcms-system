@@ -1,16 +1,41 @@
-# React + Vite
+# Recruiter Channel Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A centralized SaaS platform designed for HR & Talent Acquisition teams to streamline job postings across multi-channel networks (LinkedIn, Facebook, TopCV, VietnamWorks), track channel performance, and manage candidate email communication in one unified dashboard.
 
-Currently, two official plugins are available:
+Follow these steps to run the application locally on localhost:5173.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+📋 Prerequisites
+Ensure you have the following installed on your machine:
 
-## React Compiler
+Node.js (v18.0 or higher recommended)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+npm, yarn, or pnpm package manager
 
-## Expanding the Oxlint configuration
+🧰 Step-by-Step Setup
+1. Clone the Repository
+Bash
+git clone https://github.com/your-username/RCMS-App.git
+cd RCMS-App
+2. Install Dependencies
+Run one of the following commands depending on your preferred package manager:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Bash
+npm install
+# OR
+yarn install
+# OR
+pnpm install
+3. Start the Development Server
+Run the local dev script:
+
+Bash
+npm run dev
+# OR
+yarn dev
+# OR
+pnpm dev
+4. Access the Application
+Once the local development server starts, open your browser and navigate to:
+
+Plaintext
+http://localhost:5173

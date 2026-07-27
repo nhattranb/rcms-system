@@ -1,41 +1,36 @@
 # Recruiter Channel Management System
 
-A centralized SaaS platform designed for HR & Talent Acquisition teams to streamline job postings across multi-channel networks (LinkedIn, Facebook, TopCV, VietnamWorks), track channel performance, and manage candidate email communication in one unified dashboard.
+A simple React + Tailwind recruitment dashboard for an HR Recruitment Channel Management System.
 
-Follow these steps to run the application locally on localhost:5173.
+## Run locally
 
-📋 Prerequisites
-Ensure you have the following installed on your machine:
+1. Open the project folder:
+   ```bash
+   cd "c:\Users\Acer\OneDrive\Documents\Working\RCMS"
+   ```
 
-Node.js (v18.0 or higher recommended)
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-npm, yarn, or pnpm package manager
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-🧰 Step-by-Step Setup
-1. Clone the Repository
-Bash
-git clone https://github.com/your-username/RCMS-App.git
-cd RCMS-App
-2. Install Dependencies
-Run one of the following commands depending on your preferred package manager:
+4. Open the local URL shown in the terminal, usually:
+   ```text
+   http://localhost:5173/
+   ```
 
-Bash
-npm install
-# OR
-yarn install
-# OR
-pnpm install
-3. Start the Development Server
-Run the local dev script:
+## Build for production
 
-Bash
-npm run dev
-# OR
-yarn dev
-# OR
-pnpm dev
-4. Access the Application
-Once the local development server starts, open your browser and navigate to:
+```bash
+npm run build
+```
 
-Plaintext
-http://localhost:5173
+## Notes
+
+- The app uses Vite, React, Tailwind CSS, and Lucide icons.
+- The main dashboard and the dedicated job posting view are both available from the sidebar.

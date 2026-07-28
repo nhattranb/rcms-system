@@ -32,7 +32,7 @@ const jobs = [
     title: 'Backend Developer',
     department: 'IT',
     location: 'Hồ Chí Minh',
-    status: 'Published',
+    status: ' Đã xuất bản',
     applicants: 48,
     channel: 'LinkedIn',
   },
@@ -40,7 +40,7 @@ const jobs = [
     title: 'HR Executive',
     department: 'HR',
     location: 'Hà Nội',
-    status: 'Pending Approval',
+    status: 'Chờ phê duyệt',
     applicants: 19,
     channel: 'VietnamWorks',
   },
@@ -48,24 +48,24 @@ const jobs = [
     title: 'Digital Marketing Lead',
     department: 'Marketing',
     location: 'Đà Nẵng',
-    status: 'Draft',
+    status: 'Bản nháp',
     applicants: 8,
     channel: 'Facebook',
   },
 ]
 
 const channels = [
-  { name: 'LinkedIn', type: 'Social', candidates: 126, trend: '+18%' },
-  { name: 'Facebook', type: 'Social Media', candidates: 94, trend: '+6%' },
+  { name: 'LinkedIn', type: 'Nền tảng doanh nghiệp', candidates: 126, trend: '+18%' },
+  { name: 'Facebook', type: 'Mạng xã hội', candidates: 94, trend: '+6%' },
   { name: 'TopCV', type: 'Job Board', candidates: 81, trend: '+11%' },
   { name: 'VietnamWorks', type: 'Job Board', candidates: 73, trend: '+4%' },
-  { name: 'Referral', type: 'Internal', candidates: 37, trend: '+9%' },
+  { name: 'Referral', type: 'Nội bộ', candidates: 37, trend: '+9%' },
 ]
 
 const inbox = [
-  { sender: 'Phong Tran', topic: 'Candidate feedback for Backend Developer', time: '8m ago' },
-  { sender: 'HR Ops', topic: 'Approval request for HR Executive', time: '24m ago' },
-  { sender: 'Recruiter Team', topic: 'New leads from TopCV campaign', time: '1h ago' },
+  { sender: 'Phong Tran', topic: 'Phản hồi từ ứng viên cho vị trí Backend Developer', time: '8m ago' },
+  { sender: 'HR Ops', topic: 'Yêu cầu phê duyệt cho vị trí HR Executive', time: '24m ago' },
+  { sender: 'Recruiter Team', topic: 'Lead mới từ chiến dịch TopCV', time: '1h ago' },
 ]
 
 const statusClasses = {
@@ -88,33 +88,33 @@ function App() {
         <section className="mt-6 grid gap-4 md:grid-cols-3">
           <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Open Positions</p>
+              <p className="text-sm text-slate-500">Vị trí đang mở tuyển</p>
               <div className="rounded-2xl bg-cyan-50 p-2 text-cyan-600">
                 <BriefcaseBusiness size={18} />
               </div>
             </div>
             <p className="mt-4 text-3xl font-semibold">24</p>
-            <p className="mt-2 text-sm text-emerald-600">+5 this week</p>
+            <p className="mt-2 text-sm text-emerald-600">+5 vị trí mới trong tuần này</p>
           </div>
           <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Applications</p>
+              <p className="text-sm text-slate-500">Tổng số đơn ứng tuyển</p>
               <div className="rounded-2xl bg-violet-50 p-2 text-violet-600">
                 <Users2 size={18} />
               </div>
             </div>
             <p className="mt-4 text-3xl font-semibold">1,248</p>
-            <p className="mt-2 text-sm text-emerald-600">+12% vs last month</p>
+            <p className="mt-2 text-sm text-emerald-600">+12% vs tháng trước</p>
           </div>
           <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Approval Rate</p>
+              <p className="text-sm text-slate-500">Tỷ lệ phê duyệt</p>
               <div className="rounded-2xl bg-emerald-50 p-2 text-emerald-600">
                 <TrendingUp size={18} />
               </div>
             </div>
             <p className="mt-4 text-3xl font-semibold">82%</p>
-            <p className="mt-2 text-sm text-slate-500">Across all channels</p>
+            <p className="mt-2 text-sm text-slate-500">Trên tất cả các kênh</p>
           </div>
         </section>
 
@@ -183,7 +183,7 @@ function App() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-500">Email Inbox</p>
-                <h2 className="text-lg font-semibold text-slate-900">Recent updates</h2>
+                <h2 className="text-lg font-semibold text-slate-900">Cập nhật mới nhất</h2>
               </div>
               <button className="rounded-2xl bg-slate-100 px-3 py-2 text-sm text-slate-600">
                 View all
@@ -208,8 +208,8 @@ function App() {
           <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-slate-500">Departments</p>
-                <h2 className="text-lg font-semibold text-slate-900">Hiring focus</h2>
+                <p className="text-sm font-medium text-slate-500">Phòng ban</p>
+                <h2 className="text-lg font-semibold text-slate-900">Trọng tâm tuyển dụng</h2>
               </div>
             </div>
             <div className="mt-4 space-y-3">
@@ -241,7 +241,7 @@ function App() {
             </div>
             <div>
               <p className="font-semibold">RCMS</p>
-              <p className="text-xs text-slate-400">Recruitment Control Hub</p>
+              <p className="text-xs text-slate-400">Hệ thống quản lý tuyển dụng</p>
             </div>
           </div>
 
@@ -269,10 +269,10 @@ function App() {
           <div className="mt-10 rounded-3xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="flex items-center gap-2 text-sm text-slate-300">
               <Sparkles size={16} className="text-cyan-400" />
-              AI suggestions ready
+              AI suggestions
             </div>
             <p className="mt-2 text-sm text-slate-400">
-              Three roles are waiting for approval this afternoon.
+              Có 03 vị trí đang chờ phê duyệt.
             </p>
           </div>
         </aside>
@@ -281,7 +281,7 @@ function App() {
           <header className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <p className="text-sm font-medium text-cyan-600">Good morning, Lan</p>
+                <p className="text-sm font-medium text-cyan-600">Chào buổi sáng, Nhat</p>
                 <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
                   {activeView === 'job-postings'
                     ? 'Job Posting Center'

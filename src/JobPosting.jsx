@@ -23,7 +23,7 @@ const postings = [
     education: 'Bachelor\'s degree in Computer Science or related field.',
     note: 'Candidates with experience in cloud platforms (e.g., AWS, Azure) and containerization (e.g., Docker, Kubernetes) will be given preference.',
     applicants: 48,
-    posted: '2 days ago',
+    posted: '2 ngày trước',
     type: 'Full-time',
     date: '2026-07-25',
   },
@@ -39,7 +39,7 @@ const postings = [
     education: 'Bachelor\'s degree in Computer Science or related field.',
     note: 'Final-year students are also welcome BUT must be able to start working full-time (should finish all coursework).',
     applicants: 53,
-    posted: '9 days ago',
+    posted: '9 ngày trước',
     type: 'Full-time',
     date: '2026-07-18',
   },
@@ -55,7 +55,7 @@ const postings = [
     education: 'Bachelor\'s degree in Computer Science or related field.',
     note: 'Candidates with experience in cloud platforms (e.g., AWS, Azure) and containerization (e.g., Docker, Kubernetes) will be given preference.',
     applicants: 29,
-    posted: '9 days ago',
+    posted: '9 ngày trước',
     type: 'Full-time',
     date: '2026-07-18',
   },
@@ -71,7 +71,7 @@ const postings = [
     education: 'Bachelor\'s degree in Business Administration or related field.',
     note: 'Candidates with experience in HRIS (Human Resource Information Systems) will be given preference.',
     applicants: 19,
-    posted: '5 days ago',
+    posted: '5 ngày trước',
     type: 'Full-time',
     date: '2026-06-20',
   },
@@ -87,7 +87,7 @@ const postings = [
     education: 'Bachelor\'s degree in Business Administration or related field.',
     note: 'Candidates with experience in HRIS (Human Resource Information Systems) will be given preference.',
     applicants: 19,
-    posted: '5 days ago',
+    posted: '5 ngày trước',
     type: 'Full-time',
     date: '2026-06-20',
   },
@@ -101,7 +101,7 @@ const postings = [
     skills: 'Strong knowledge of digital marketing channels (SEO, SEM, social media, email marketing), proficiency in analytics tools (Google Analytics, etc.), experience with content creation and management, excellent communication and leadership skills.',
     english: 'Fluent in English, both written and spoken. For written communication, a high level of proficiency is required to create compelling content and marketing materials.',
     applicants: 8,
-    posted: '1 week ago',
+    posted: '1 tuần trước',
     type: 'Contract',
   },
   {
@@ -113,7 +113,7 @@ const postings = [
     experience: '4+ years of experience in product design, with a strong portfolio showcasing your design work and problem-solving abilities.',
     skills: 'Proficiency in design tools (Sketch, Figma, Adobe Creative Suite), strong understanding of user-centered design principles, experience with prototyping and user testing, excellent communication and collaboration skills.',
     applicants: 27,
-    posted: '2 weeks ago',
+    posted: '2 tuần trước',
     type: 'Full-time',
   },
 ]
@@ -130,9 +130,9 @@ function JobPosting() {
     <div className="jobposting-page rounded-[32px] border border-slate-200 bg-white/90 p-5 shadow-sm">
       <div className="jobposting-hero flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-sm font-medium text-cyan-200">Job Posting Center</p>
-          <h2 className="text-xl font-semibold text-white">Recruitment opportunities</h2>
-          <p className="mt-1 text-sm text-cyan-50/90">Track active roles, applicants, and approvals in one place.</p>
+          <p className="text-sm font-medium text-cyan-200">Trung tâm tuyển dụng</p>
+          <h2 className="text-xl font-semibold text-white">Cơ hội nghề nghiệp</h2>
+          <p className="mt-1 text-sm text-cyan-50/90">Theo dõi các vị trí đang mở, ứng viên và phê duyệt tại một nơi.</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <label className="jobposting-search flex items-center gap-2 rounded-2xl px-3 py-2 text-sm text-slate-500">
@@ -140,7 +140,7 @@ function JobPosting() {
             <input className="w-full bg-transparent outline-none" placeholder="Search jobs" />
           </label>
           <button className="jobposting-btn rounded-2xl px-3 py-2 text-sm font-medium">
-            + New Posting
+            + Công việc mới
           </button>
         </div>
       </div>
@@ -149,14 +149,14 @@ function JobPosting() {
         <div className="jobposting-stat-card rounded-2xl p-4">
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <BriefcaseBusiness size={16} className="text-cyan-600" />
-            Active openings
+            Vị trí đang mở
           </div>
           <p className="mt-3 text-2xl font-semibold text-slate-900">24</p>
         </div>
         <div className="jobposting-stat-card rounded-2xl p-4">
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <Users2 size={16} className="text-violet-600" />
-            Total applicants
+            Tổng số đơn ứng tuyển
           </div>
           <p className="mt-3 text-2xl font-semibold text-slate-900">1,248</p>
         </div>
@@ -197,7 +197,7 @@ function JobPosting() {
               </div>
               <div className="text-sm text-slate-600">
                 <p className="font-semibold text-slate-900">{job.applicants} applicants</p>
-                <p className="mt-1">Ready for review</p>
+                <p className="mt-1">Sẵn sàng xem xét</p>
               </div>
             </div>
           </div>

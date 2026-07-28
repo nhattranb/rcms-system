@@ -1,0 +1,693 @@
+Công ty Cổ phần An ninh mạng THD
+
+Tài liệu yêu cầu phần mềm (Business Requirement Document)
+
+Dự án: Hệ thống quản lý tin bài tuyển dụng (RCMS)
+
+Tác giả: Trần Minh Nhật (phụ trách Tech dự án)
+
+Hỗ trợ: …
+
+Thành phố Hồ Chí Minh
+
+Tháng 7 năm 2026
+
+Mục lục
+
+Tổng quan về dự án3
+
+Vấn đề cần giải quyết3
+
+Mục tiêu dự án6
+
+Yêu cầu về chức năng7
+
+Yêu cầu về kỹ thuật11
+
+Các bên liên quan13
+
+Giả định và ràng buộc14
+
+Tổng quan về dự án
+
+Hiện nay, quy trình thu hút và tiếp cận ứng viên của bộ phận Nhân sự (HR) phụ thuộc lớn vào việc đăng tin tuyển dụng đa kênh (LinkedIn, Facebook, các trang tin tuyển dụng,...). Tuy nhiên, việc vận hành rời rạc trên từng nền tảng đang gây ra nhiều bất cập:
+
+Dữ liệu phân tán: HR phải đăng nhập và thao tác thủ công trên từng nền tảng riêng biệt.
+
+Khó theo dõi hiệu quả: Thiếu công cụ tập trung để tra cứu thông tin bài đăng và đo lường hiệu suất thực tế của từng kênh.
+
+Phản hồi chậm: Việc quản lý tương tác và nhận CV rải rác làm kéo dài thời gian phản hồi ứng viên.
+
+Chính vì lẽ đó, chúng tôi đề xuất phát triển Dự án Hệ thống Quản lý Kênh Tuyển dụng Tập trung (Recruitment Channel Management Software - RCMS) nhằm cung cấp một nền tảng quản trị thống nhất cho bộ phận HR. Hệ thống hỗ trợ HR tối ưu hóa toàn bộ vòng đời đăng tin, tra cứu dữ liệu và phản hồi ứng viên trên cùng một giao diện.
+
+Mục tiêu cốt lõi: Chuyển đổi từ quy trình tuyển dụng đa kênh phân tán sang quản lý tập trung (Centralized Management), tăng hiệu suất làm việc của bộ phận HR và nâng cao trải nghiệm của ứng viên.
+
+Vấn đề cần được giải quyết
+
+Hiện nay, việc tuyển dụng ứng viên được xem như là công việc “cơm bữa” của rất nhiều các tập thể khác nhau. Các doanh nghiệp, công ty hiện đang thực hiện hoạt động tuyển dụng thông qua nhiều kênh khác nhau như:
+
+LinkedIn
+
+Facebook và MXH (mạng xã hội)
+
+VietnamWorks
+
+TopCV
+
+CareerBuilder
+
+Website công ty
+
+Email
+
+Ngoài ra, nhiều doanh nghiệp lớn hiện nay còn đang sử dụng ứng viên từ các nguồn giới thiệu nội bộ (Employee Referral) giữa các nhân viên với nhau, và với bên ngoài.
+
+Việc quản lý các hoạt động tuyển dụng trên nhiều nền tảng đang được thực hiện rời rạc, chủ yếu bằng cách truy cập từng kênh riêng lẻ hoặc sử dụng bảng tính để theo dõi, dẫn đến nhiều khó khăn trong công tác quản lý và theo dõi tiến độ tuyển dụng.
+
+Các vấn đề chính bao gồm:
+
+1. Thông tin tuyển dụng phân tán
+
+Mỗi vị trí tuyển dụng thường được đăng tải trên nhiều nền tảng khác nhau nhưng không có nơi tổng hợp tập trung.
+
+Ví dụ:
+
+LinkedIn
+
+Facebook
+
+Website công ty
+
+VietnamWorks
+
+TopCV
+
+HR phải mở từng nền tảng để kiểm tra. Số lượng nền tảng càng lớn, kiểm tra càng nhiều là càng mệt mỏi.
+
+2. Khó theo dõi hiệu quả từng kênh
+
+Trong quá trình đăng tuyển, HR không thể dễ trả lời các câu hỏi như:
+
+Có bao nhiêu vị trí đang mở?
+
+Vị trí nào đã đăng trên những kênh nào?
+
+Vị trí nào đang có tiến độ tuyển nhanh/chậm nhất?
+
+Kênh nào mang lại nhiều ứng viên nhất?
+
+Kênh nào không hiệu quả?
+
+Kênh nào sở hữu các ứng viên chất lượng nhất?
+
+Và nhiều câu hỏi khác…
+
+3. Thiếu khả năng quản lý trạng thái tuyển dụng
+
+Việc theo dõi vòng đời của một tin tuyển dụng còn thủ công, nhất là đối với những công ty vừa và nhỏ.
+
+Ví dụ quy trình đăng tuyển:
+
+Draft
+
+↓
+
+Pending Approval (từ trưởng phòng HCNS)
+
+↓
+
+Published
+
+↓
+
+Expired
+
+↓
+
+Closed (Sau khi đã có ứng viên trúng tuyển onboard)
+
+4. Khó tra cứu thông tin tuyển dụng
+
+Khi cần tìm lại một vị trí cũ, HR phải tìm kiếm qua:
+
+Email
+
+Excel
+
+LinkedIn
+
+Facebook
+
+gây mất thời gian, lãng phí nhân lực – nhất là khi vị trí đó đã đóng từ quá lâu.
+
+5. Quản lý trao đổi với ứng viên chưa tập trung
+
+Email trao đổi với ứng viên nằm rải rác trong hộp thư cá nhân hoặc hộp thư chung, và với số lượng ứng viên lớn, HR sẽ khó biết:
+
+Đã gửi email cho ứng viên chưa?
+
+Ứng viên đã phản hồi chưa?
+
+Ai đang phụ trách ứng viên đó?
+
+Kết quả của ứng viên đó thế nào?
+
+Khi ứng viên đó đã onboard, liệu có nên tiếp tục mở vị trí không?
+
+6. Thiếu báo cáo và thống kê
+
+Do không có nền tảng thống kê rõ ràng, Người Quản lý tuyển dụng khó theo dõi:
+
+Số lượng vị trí đang tuyển cho các chức vụ.
+
+Tiến độ tuyển dụng.
+
+Số lượng ứng viên theo từng vị trí.
+
+Hiệu quả của từng kênh tuyển dụng.
+
+Thời gian tuyển dụng trung bình cho mỗi chức vụ.
+
+Điều này gây khó khăn cho công tác đi tìm ứng viên và quản lý tuyển dụng sau này.
+
+Mục tiêu của dự án
+
+Mục tiêu của dự án này là xây dựng một Recruitment Channel Management System giúp quản lý tập trung các hoạt động đăng tuyển và theo dõi tiến trình tuyển dụng trên nhiều kênh khác nhau.
+
+Hệ thống hướng đến các mục tiêu sau:
+
+Mục tiêu 1: Quản lý tập trung toàn bộ vị trí tuyển dụng.
+
+Mục tiêu 2: Theo dõi các kênh đã đăng tuyển cho từng vị trí.
+
+Mục tiêu 3: Cho phép HR tra cứu nhanh thông tin tuyển dụng.
+
+HR có thể tìm theo:
+
+Job Title
+
+Department
+
+Recruiter
+
+Location
+
+Status
+
+Recruitment Channel
+
+Mục tiêu 4: Theo dõi tình trạng tuyển dụng của vị trí đó.
+
+Mục tiêu 5: Theo dõi hiệu quả các kênh tuyển dụng (mỗi kênh có bao nhiêu ứng viên, ứng viên trả lời hay đồng ý chưa)
+
+Mục tiêu 6: Quản lý lịch sử và tiến độ tuyển dụng.
+
+HR có thể xem được:
+
+Ngày đăng tuyển.
+
+Người phụ trách.
+
+Ngày hết hạn.
+
+Trạng thái hiện tại.
+
+Mục tiêu 7: Tích hợp Email để:
+
+Gửi email cho ứng viên.
+
+Theo dõi trạng thái gửi email.
+
+Lưu lịch sử trao đổi.
+
+Nhắc HR phản hồi ứng viên khi cần thiết.
+
+Out of Scope – RCMS chưa phục vụ các tính năng sau:
+
+Quản lý hồ sơ nhân viên sau khi tuyển dụng.
+
+Quản lý lương, thưởng và phúc lợi.
+
+Chấm công và quản lý ca làm việc.
+
+Quản lý hợp đồng lao động.
+
+AI tự động sàng lọc CV hoặc chấm điểm ứng viên.
+
+Tự động đăng tuyển lên tất cả nền tảng nếu nền tảng không hỗ trợ API.
+
+Tích hợp với các hệ thống HRM/ERP chưa được yêu cầu.
+
+Yêu cầu về chức năng
+
+Khi triển khai thành công, hệ thống đạt được các mục tiêu sau:
+
+  Quản lý danh sách vị trí tuyển dụng.
+
+  Quản lý các kênh đăng tuyển.
+
+  Theo dõi trạng thái từng tin tuyển dụng.
+
+  Cho phép tìm kiếm và tra cứu nhanh.
+
+  Theo dõi hiệu quả của từng kênh tuyển dụng.
+
+  Hỗ trợ Dashboard và báo cáo.
+
+  (Tùy chọn) tích hợp Email để quản lý việc trao đổi với ứng viên.
+
+Yêu cầu chức năng cụ thể:
+
+FR1. User Authentication
+
+Hệ thống phải cho phép người dùng đăng nhập để sử dụng các chức năng theo quyền hạn được cấp ban đầu.
+
+Mô tả
+
+Đăng nhập bằng tài khoản công ty.
+
+Phân quyền theo vai trò (HR Recruiter, HR Manager, TA Lead, Admin...).
+
+FR2. Job Posting Management
+
+Hệ thống phải cho phép HR/TA tạo và quản lý các vị trí tuyển dụng.
+
+Người dùng (HR/Recruiters/TA) có thể
+
+Tạo Job mới
+
+Chỉnh sửa
+
+Đóng tuyển
+
+Mở lại tuyển
+
+Lưu bản nháp
+
+Ví dụ
+
+Backend Developer (Kỹ sư Backend)
+
+Department:
+
+IT (Công nghệ Thông tin)
+
+Location:
+
+HCMC (TP. Hồ Chí Minh)
+
+Status:
+
+Open (Đang mở tuyển)
+
+FR3. Recruitment Channel Management
+
+Hệ thống phải quản lý các kênh tuyển dụng.
+
+Ví dụ
+
+MXH - LinkedIn, Facebook
+
+Nền tảng Job Hunting - TopCV, VietnamWorks, CareerBuilder
+
+Company Website (Website công ty)
+
+Giới thiệu nội bộ (Referral)
+
+Các nguồn khác
+
+Mỗi Job có thể được liên kết với nhiều kênh khác nhau.
+
+FR4. Publish Tracking
+
+Hệ thống phải theo dõi việc đăng tuyển của từng Job trên từng kênh.
+
+Ví dụ
+
+Job
+
+LinkedIn
+
+Facebook
+
+Website
+
+BA (PT Nghiệp vụ)
+
+Published
+
+Draft
+
+Published
+
+FR5. Recruitment Status Management
+
+Hệ thống phải quản lý trạng thái tuyển dụng của vị trí đó.
+
+Ví dụ
+
+Draft (đang phác thảo)
+
+Pending Approval (chờ phê duyệt)
+
+Published (đã xuất bản)
+
+Paused (đang tạm dừng)
+
+Expired (hết hạn)
+
+Closed (đã đóng)
+
+Filled (dã có người trúng tuyển)
+
+FR6. Search Recruitment Information
+
+HR có thể tìm kiếm Job theo:
+
+Job Title
+
+Department
+
+Recruiter
+
+Status
+
+Location
+
+Recruitment Channel
+
+Candidate Number
+
+FR7. Recruitment Dashboard
+
+Hệ thống hiển thị Dashboard quản lý, giám sát tình hình tuyển dụng hiện tại.
+
+Ví dụ
+
+Open Jobs: 25
+
+Closed Jobs: 40
+
+Expired: 3
+
+Pending: 8
+
+FR8. Recruitment Reporting
+
+Sinh báo cáo theo thời gian thực về tình hình tuyển dụng hiện tại, qua các tiêu chí:
+
+thời gian
+
+recruiter
+
+department
+
+recruitment channel
+
+Ví dụ
+
+Top nguồn ứng viên dự tuyển:
+
+LinkedIn: 52%
+
+TopCV: 28%
+
+Facebook: 20%
+
+FR9. Email Integration (Optional, nếu được)
+
+Nếu tích hợp Email, HR có thể
+
+gửi email cho ứng viên
+
+xem lịch sử email
+
+biết email đã gửi hay chưa
+
+theo dõi phản hồi ứng viên
+
+FR10. Recruitment Timeline
+
+Mỗi Job có Timeline riêng biệt giúp HR dễ dàng quản lý tình hình đăng tuyển:
+
+Ví dụ
+
+Job: Frontend Developer
+
+01/08: Created
+
+03/08: Published
+
+15/08: Updated
+
+25/08: Closed
+
+FR11. Notification
+
+Thông báo cho HR khi có 1 trong 4 sự kiện sau:
+
+Job sắp hết hạn
+
+Chưa đăng trên đủ kênh
+
+Có Job chờ duyệt
+
+Có email phản hồi
+
+FR12. User & Role Management
+
+Admin quản lý được toàn bộ hệ thống:
+
+User
+
+Role
+
+Department
+
+Quyền truy cập
+
+Lịch sử truy cập
+
+Để đảm bảo an toàn.
+
+Yêu cầu về kỹ thuật
+
+Về phần hạ tầng, tài nguyên, hiệu suất app cần đạt các tiêu chí sau:
+
+NFR-01. Response Time
+
+Hệ thống phải phản hồi các thao tác thông thường trong thời gian ngắn.
+
+Yêu cầu
+
+Đăng nhập ≤ 3-5 giây
+
+Tra cứu Job ≤ 2-4 giây
+
+Mở Dashboard ≤ 5-10 giây
+
+Sinh báo cáo ≤ 10-20 giây (nếu dài là 30 giây)
+
+NFR-02. Concurrent Users
+
+Hệ thống phải hỗ trợ nhiều người sử dụng đồng thời.
+
+Ví dụ
+
+50 HR của nhiều công ty sử dụng cùng lúc
+
+100 phiên đăng nhập đồng thời
+
+NFR-03. Data Volume
+
+Hệ thống phải quản lý được dữ liệu lớn khi được mở rộng sau này.
+
+Ví dụ
+
+5.000 Job Postings
+
+10.000 Candidate Records
+
+200.000 Email Logs
+
+1-5 năm dữ liệu
+
+NFR-04. System Availability
+
+Hệ thống phải sẵn sàng trong giờ làm việc với mức Availability đạt 99.5% đến 99.9%.
+
+NFR-05. Backup
+
+Dữ liệu phải được sao lưu.
+
+Backup hàng ngày, giữ backup 30 ngày
+
+Có khả năng Restore
+
+NFR-06. Authentication
+
+Hỗ trợ được giao thức:
+
+Username/Password
+
+2FA
+
+SSO/LDAP (nếu triển khai rộng)
+
+Microsoft Entra ID (Azure AD) – nếu triển khai rộng
+
+NFR-07. System Authorization
+
+Hệ thống phải áp dụng phân quyền, Mỗi Role có quyền khác nhau.
+
+NFR-08. Data Encryption
+
+Mọi dữ liệu trao đổi phải sử dụng mã hóa. Thông tin nhạy cảm trong cơ sở dữ liệu nên được mã hóa khi phù hợp (ví dụ thông tin ứng viên hoặc thông tin xác thực).
+
+NFR-09. Audit Log
+
+Lưu nhật ký
+
+Login/Logout
+
+Create Job/Edit Job/Delete Job/Publish Job
+
+Send Email
+
+NFR-10. Easy to Use UI
+
+Giao diện (UI – User Interface) người dùng phải:
+
+dễ sử dụng
+
+ít thao tác
+
+hỗ trợ tìm kiếm
+
+để bộ phận kỹ thuật không cần nhiều thời gian đào tạo.
+
+Các bên liên quan
+
+Đối tượng sử dụng (Actors) của hệ thống:
+
+HR Recruiter: tạo và theo dõi tin tuyển dụng, cập nhật trạng thái, trao đổi với ứng viên.
+
+HR/TA Manager: giám sát tiến độ tuyển dụng, xem báo cáo, đánh giá hiệu quả các kênh.
+
+Hiring Manager (tùy phạm vi): theo dõi tình trạng tuyển dụng của phòng ban mình, xem danh sách ứng viên liên quan.
+
+TA Lead (tùy phạm vi): theo dõi tình trạng tuyển dụng của các công việc quan trọng.
+
+System Administrator: quản lý tài khoản người dùng, cấu hình danh mục kênh tuyển dụng, thiết lập tích hợp (email, nền tảng tuyển dụng).
+
+Giả định và ràng buộc
+
+Với hệ thống này, sẽ có các giả định như sau:
+
+A1. Người dùng đã có tài khoản doanh nghiệp
+
+Hệ thống giả định rằng toàn bộ nhân viên HR/TA/… đã có tài khoản đăng nhập của công ty và được cấp quyền truy cập hệ thống.
+
+A2. Các kênh tuyển dụng được sử dụng hợp pháp
+
+Doanh nghiệp đã có tài khoản trên các nền tảng tuyển dụng như:
+
+LinkedIn/Facebook
+
+VietnamWorks/TopCV/CareerViet…
+
+và được phép sử dụng các tài khoản này để đăng tuyển tất cả các vị trí.
+
+A3. Có kết nối Internet ổn định
+
+Hệ thống giả định máy người dùng có Internet để:
+
+truy cập RCMS
+
+đồng bộ email
+
+kết nối các nền tảng tuyển dụng
+
+A4. Dữ liệu tuyển dụng được HR cập nhật đầy đủ
+
+Thông tin như:
+
+Job Title
+
+Department
+
+Status
+
+Recruiter phụ trách job đó
+
+được HR cập nhật chính xác cho từng công việc.
+
+A5. Hệ thống Email doanh nghiệp hoạt động bình thường
+
+Nếu tích hợp email, giả định rằng doanh nghiệp đã có ít nhất 1 trong 3 hệ thống:
+
+Microsoft 365
+
+Google Workspace
+
+SMTP Server
+
+A6. Danh mục phòng ban và người dùng đã tồn tại
+
+RCMS chỉ sử dụng dữ liệu này, không phải kết nối hệ thống quản lý nhân sự (HRM) – nếu được triển khai sẽ thêm phần này.
+
+A7. Quy trình tuyển dụng của DN tương đối thống nhất
+
+RCMS không thể xử lý các quy trình tuyển dụng đặc thù nếu chưa được cấu hình.
+
+Về các ràng buộc:
+
+C1. Phụ thuộc API của nền tảng tuyển dụng
+
+Việc tích hợp với LinkedIn, Facebook, TopCV... phụ thuộc vào: API có được cung cấp hay không và chính sách của các nền tảng. Nếu API không hỗ trợ, hệ thống chỉ có thể lưu thông tin hoặc cung cấp liên kết, thay vì tự động đăng hoặc đồng bộ với các nền tảng nêu tên trên.
+
+C2. Phụ thuộc hệ thống Email
+
+Các chức năng gửi hoặc đồng bộ email chỉ hoạt động khi:
+
+Mail Server khả dụng.
+
+Tài khoản có quyền truy cập.
+
+C3. Chỉ quản lý hoạt động tuyển dụng
+
+Như đã nhắc ở phần Out of Scope (trang 7)
+
+C4. Không thay thế Applicant Tracking System (ATS)
+
+RCMS không quản lý toàn bộ vòng đời ứng viên nếu chưa được mở rộng.
+
+C5. Tuân thủ chính sách bảo mật doanh nghiệp
+
+Hệ thống phải tuân theo:
+
+Chính sách phân quyền
+
+Chính sách bảo mật dữ liệu
+
+Chính sách lưu trữ log
+
+C6. Ngân sách và thời gian triển khai
+
+Dự án được triển khai trong phạm vi: thời gian, nguồn lực, ngân sách đã được doanh nghiệp phê duyệt. Các yêu cầu ngoài phạm vi sẽ được xem xét ở các giai đoạn tiếp theo.
+
+C7. Chỉ hỗ trợ các trình duyệt được quy định
+
+RCMS không cam kết hỗ trợ các trình duyệt cũ hoặc không còn được cập nhật.
+
+C8. Chỉ quản lý dữ liệu thuộc doanh nghiệp
+
+Người dùng chỉ được phép truy cập:
+
+Job Posting
+
+Report
+
+Recruitment Data
+
+thuộc phạm vi công ty mình.

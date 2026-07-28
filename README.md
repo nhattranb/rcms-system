@@ -6,7 +6,7 @@ A simple React + Tailwind recruitment dashboard for an HR Recruitment Channel Ma
 
 1. Open the project folder:
    ```bash
-   cd "c:\Users\Acer\OneDrive\Documents\Working\RCMS"
+   cd "c:\Users\Acer\OneDrive\Documents\Working\rcms-system"
    ```
 
 2. Install dependencies:

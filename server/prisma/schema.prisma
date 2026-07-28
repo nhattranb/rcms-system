@@ -1,0 +1,121 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Department {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  code      String?
+  createdAt DateTime @default(now())
+  users     User[]
+  jobs      Job[]
+}
+
+model User {
+  id           String      @id @default(uuid())
+  name         String
+  email        String      @unique
+  role         String
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id])
+  avatar       String?
+  createdAt    DateTime    @default(now())
+  jobs         Job[]       @relation("RecruiterJobs")
+  auditLogs    AuditLog[]
+}
+
+model Job {
+  id                String                 @id @default(uuid())
+  title             String
+  departmentName    String
+  department        Department?            @relation(fields: [departmentId], references: [id])
+  departmentId      String?
+  location          String
+  status            String                 @default("Draft")
+  type              String                 @default("Full-time")
+  description       String
+  experience        String?
+  skills            String?
+  english           String?
+  education         String?
+  note              String?
+  recruiterId       String?
+  recruiter         User?                  @relation("RecruiterJobs", fields: [recruiterId], references: [id])
+  recruiterName     String
+  applicantsCount   Int                    @default(0)
+  createdDate       String
+  updatedDate       String
+  expiryDate        String?
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+  publishedChannels JobChannelPublishTrack[]
+  timelineEvents    TimelineEvent[]
+  emailLogs         EmailLog[]
+}
+
+model Channel {
+  id              String                 @id @default(uuid())
+  name            String                 @unique
+  category        String
+  activeJobsCount Int                    @default(0)
+  totalCandidates Int                    @default(0)
+  trend           String                 @default("+0%")
+  status          String                 @default("Active")
+  createdAt       DateTime               @default(now())
+  publishedJobs   JobChannelPublishTrack[]
+}
+
+model JobChannelPublishTrack {
+  id            String   @id @default(uuid())
+  jobId         String
+  job           Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  channelId     String
+  channel       Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  status        String   @default("Draft")
+  publishedDate String?
+  postUrl       String?
+
+  @@unique([jobId, channelId])
+}
+
+model TimelineEvent {
+  id        String   @id @default(uuid())
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  date      String
+  action    String
+  actor     String
+  note      String?
+  createdAt DateTime @default(now())
+}
+
+model EmailLog {
+  id             String   @id @default(uuid())
+  jobId          String?
+  job            Job?     @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  jobTitle       String?
+  sender         String
+  recipient      String
+  recipientEmail String
+  topic          String
+  content        String
+  time           String
+  status         String   @default("Sent")
+  sentAt         DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  timestamp String
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userName  String
+  action    String
+  details   String
+  createdAt DateTime @default(now())
+}

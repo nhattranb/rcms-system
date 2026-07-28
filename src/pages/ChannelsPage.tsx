@@ -83,7 +83,7 @@ export const ChannelsPage: React.FC = () => {
           onClick={handleOpenAdd}
           className="inline-flex items-center gap-2 rounded-2xl bg-cyan-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-cyan-700 transition"
         >
-          <Plus size={18} /> Thêm Kênh Tuyển dụng Mới
+          <Plus size={18} /> Thêm các Kênh Tuyển dụng Mới
         </button>
       </div>
 

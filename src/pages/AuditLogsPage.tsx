@@ -25,7 +25,7 @@ export const AuditLogsPage: React.FC = () => {
             Nhật ký gần đây nhất ({logs.length} sự kiện)
           </span>
           <span className="text-[11px] text-slate-400 font-mono">
-            Tất cả dữ liệu được lưu vết tại đây.
+            Tất cả dữ liệu được lưu tại đây.
           </span>
         </div>
 

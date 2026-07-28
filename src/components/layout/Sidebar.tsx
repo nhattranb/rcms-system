@@ -15,7 +15,7 @@ import { useAuthStore } from '../../store/useAuthStore'
 
 const NAVIGATION_ITEMS = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutGrid },
-  { name: 'Tin tuyển dụng (Jobs)', path: '/jobs', icon: BriefcaseBusiness },
+  { name: 'Tin tuyển dụng', path: '/jobs', icon: BriefcaseBusiness },
   { name: 'Kênh tuyển dụng', path: '/channels', icon: Send },
   { name: 'Hộp thư Email', path: '/inbox', icon: Inbox },
   { name: 'Báo cáo Thống kê', path: '/reports', icon: BarChart3 },

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Bell, ChevronDown, Search, UserCheck } from 'lucide-react'
+import { Bell, ChevronDown, LogOut, Search, UserCheck } from 'lucide-react'
 import { useJobStore } from '../../store/useJobStore'
 import { useAuthStore } from '../../store/useAuthStore'
 import { useChannelStore } from '../../store/useChannelStore'
@@ -7,7 +7,7 @@ import { useChannelStore } from '../../store/useChannelStore'
 export const Header: React.FC = () => {
   const { jobs, searchQuery, setSearchQuery } = useJobStore()
   const { publishTracks } = useChannelStore()
-  const { currentUser, users, setCurrentUser } = useAuthStore()
+  const { currentUser, users, setCurrentUser, logout } = useAuthStore()
   const [showUserMenu, setShowUserMenu] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
 
@@ -63,7 +63,7 @@ export const Header: React.FC = () => {
             Xin chào, {currentUser.name} ({currentUser.role})
           </p>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 mt-0.5">
-            Hệ thống Quản lý Kênh Tuyển dụng (RCMS)
+            Hệ thống Thông tin Quản lý Kênh Tuyển dụng
           </h1>
         </div>
 
@@ -113,7 +113,7 @@ export const Header: React.FC = () => {
                     Cảnh báo Tuyển dụng
                   </span>
                   <span className="text-[10px] bg-cyan-50 text-cyan-700 font-bold px-2 py-0.5 rounded-full">
-                    {notifications.length} sự kiện
+                    {notifications.length} Sự kiện
                   </span>
                 </div>
                 <div className="mt-2 space-y-2 max-h-64 overflow-y-auto">
@@ -151,6 +151,16 @@ export const Header: React.FC = () => {
                 <p className="px-3 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
                   Chuyển vai trò thử nghiệm (RBAC)
                 </p>
+                <button
+                  onClick={() => {
+                    logout()
+                    setShowUserMenu(false)
+                  }}
+                  className="mb-2 flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-xs text-rose-600 transition hover:bg-rose-50"
+                >
+                  <LogOut size={14} />
+                  Đăng xuất
+                </button>
                 {users.map((user) => (
                   <button
                     key={user.id}

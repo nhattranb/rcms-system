@@ -6,8 +6,8 @@ services:
     container_name: rcms_postgres
     restart: always
     environment:
-      POSTGRES_USER: rcms_user
-      POSTGRES_PASSWORD: rcms_password
+      POSTGRES_USER: nhat
+      POSTGRES_PASSWORD: thdcyber26
       POSTGRES_DB: rcms_db
     ports:
       - '5432:5432'

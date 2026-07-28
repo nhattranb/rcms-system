@@ -1,5 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+
+const Link = ({
+  to,
+  ...props
+}: { to: string } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  <a href={to} {...props} />
+)
+
 import {
   BarChart3,
   BriefcaseBusiness,
@@ -19,21 +26,20 @@ export const DashboardPage: React.FC = () => {
 
   // Filter jobs based on global search
   const filteredJobs = jobs.filter(
-    (job) =>
+    (job: { title: string; department: string }) =>
       job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       job.department.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  const openJobsCount = jobs.filter((j) => j.status === 'Published').length
+  const openJobsCount = jobs.filter((j: { status: string }) => j.status === 'Published').length
   const pendingJobsCount = jobs.filter(
-    (j) => j.status === 'Pending Approval'
+    (j: { status: string }) => j.status === 'Pending Approval'
   ).length
-  const totalApplicants = jobs.reduce((acc, j) => acc + j.applicantsCount, 0)
-  const expiredJobsCount = jobs.filter((j) => j.status === 'Expired').length
+  const totalApplicants = jobs.reduce((acc: any, j: { applicantsCount: any }) => acc + j.applicantsCount, 0)
+  const expiredJobsCount = jobs.filter((j: { status: string }) => j.status === 'Expired').length
 
   return (
     <div className="space-y-6">
-      {/* Top Stat Cards (FR7 - Recruitment Dashboard) */}
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between">
@@ -48,7 +54,7 @@ export const DashboardPage: React.FC = () => {
             {openJobsCount}
           </p>
           <p className="mt-2 text-xs font-medium text-emerald-600 flex items-center gap-1">
-            <TrendingUp size={14} /> +3 vị trí tuần này
+            <TrendingUp size={14} /> +3 vị trí trong tuần này
           </p>
         </div>
 
@@ -126,7 +132,7 @@ export const DashboardPage: React.FC = () => {
           </div>
 
           <div className="mt-4 space-y-3">
-            {filteredJobs.slice(0, 5).map((job) => (
+            {filteredJobs.slice(0, 5).map((job: { id: React.Key | null | undefined; title: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; status: string; department: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; location: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; recruiterName: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; applicantsCount: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; expiryDate: any }) => (
               <div
                 key={job.id}
                 className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-slate-50/80 p-4 transition hover:bg-slate-100/80 md:flex-row md:items-center md:justify-between"
@@ -188,7 +194,7 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             <div className="mt-4 space-y-3">
-              {channels.map((channel) => (
+              {channels.map((channel: any) => (
                 <div
                   key={channel.id}
                   className="rounded-2xl border border-slate-100 p-3.5 hover:bg-slate-50 transition"

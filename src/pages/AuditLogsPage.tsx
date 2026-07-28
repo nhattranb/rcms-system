@@ -10,14 +10,11 @@ export const AuditLogsPage: React.FC = () => {
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-xl font-bold text-slate-900">
-            Nhật ký Hoạt động Hệ thống - Audit Logs (NFR-09)
+            Nhật ký Hoạt động Hệ thống RCMS - Audit Logs
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
             Tự động ghi vết hoạt động: Login, Create Job, Edit, Status Change, Publish & Send Email
           </p>
-        </div>
-        <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-2xl">
-          <ShieldCheck size={16} /> Ghi log tự động theo chuẩn NFR-09
         </div>
       </div>
 
@@ -28,7 +25,7 @@ export const AuditLogsPage: React.FC = () => {
             Nhật ký gần đây nhất ({logs.length} sự kiện)
           </span>
           <span className="text-[11px] text-slate-400 font-mono">
-            Tất cả dữ liệu được lưu vết mã hóa
+            Tất cả dữ liệu được lưu vết tại đây.
           </span>
         </div>
 

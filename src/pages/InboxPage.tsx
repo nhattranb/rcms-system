@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CheckCheck, Mail, Send, User } from 'lucide-react'
-import { INITIAL_EMAILS } from '../services/mockData'
 import { EmailLog } from '../types'
 import { useAuthStore } from '../store/useAuthStore'
-import { useAuditLogStore } from '../store/useAuditLogStore'
+import { fetchFromApi } from '../services/api'
 
 const EMAIL_TEMPLATES = [
   {
@@ -25,53 +24,61 @@ const EMAIL_TEMPLATES = [
 
 export const InboxPage: React.FC = () => {
   const { currentUser } = useAuthStore()
-  const [emails, setEmails] = useState<EmailLog[]>(INITIAL_EMAILS)
-  const [selectedEmail, setSelectedEmail] = useState<EmailLog>(
-    INITIAL_EMAILS[0]
-  )
+  const [emails, setEmails] = useState<EmailLog[]>([])
+  const [selectedEmail, setSelectedEmail] = useState<EmailLog | null>(null)
   const [replyText, setReplyText] = useState('')
+
+  useEffect(() => {
+    async function loadEmails() {
+      const data = await fetchFromApi<EmailLog[]>('/emails')
+      if (data && data.length > 0) {
+        setEmails(data)
+        setSelectedEmail(data[0])
+      }
+    }
+    loadEmails()
+  }, [])
 
   const handleSelectTemplate = (templateContent: string) => {
     setReplyText(templateContent)
   }
 
-  const handleSendReply = (e: React.FormEvent) => {
+  const handleSendReply = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!replyText.trim()) return
+    if (!replyText.trim() || !selectedEmail) return
 
-    const newEmail: EmailLog = {
-      id: `em-${Date.now()}`,
+    const newEmailData = {
+      jobId: selectedEmail.jobId,
       jobTitle: selectedEmail.jobTitle,
       sender: `${currentUser.name} (${currentUser.role})`,
       recipient: selectedEmail.sender,
       recipientEmail: selectedEmail.recipientEmail,
       topic: `Re: ${selectedEmail.topic}`,
       content: replyText,
-      time: 'Vừa xong',
       status: 'Sent',
+      actorId: currentUser.id,
     }
 
-    setEmails([newEmail, ...emails])
-    setSelectedEmail(newEmail)
-    setReplyText('')
-
-    // Log Audit Event (NFR-09)
-    useAuditLogStore.getState().addLog({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      action: 'Send Email',
-      details: `Gửi email cho ứng viên ${selectedEmail.sender} (${selectedEmail.recipientEmail}) - Chủ đề: ${selectedEmail.topic}`,
+    const createdEmail = await fetchFromApi<EmailLog>('/emails', {
+      method: 'POST',
+      body: JSON.stringify(newEmailData),
     })
+
+    if (createdEmail) {
+      setEmails([createdEmail, ...emails])
+      setSelectedEmail(createdEmail)
+    }
+    setReplyText('')
   }
 
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-bold text-slate-900">
-          Hộp thư & Tích hợp Email Trao đổi Ứng viên (FR9)
+          Hộp thư & Tích hợp Email Trao đổi Ứng viên (FR9 - Live DB)
         </h2>
         <p className="text-xs text-slate-500 mt-0.5">
-          Gửi email trực tiếp cho ứng viên, xem lịch sử email, mẫu template và theo dõi phản hồi
+          Gửi email trực tiếp cho ứng viên, xem lịch sử email từ PostgreSQL database và tự động ghi log
         </p>
       </div>
 
@@ -83,7 +90,7 @@ export const InboxPage: React.FC = () => {
               Hộp thư ({emails.length})
             </h3>
             <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-              Microsoft 365 Connected
+              PostgreSQL Connected
             </span>
           </div>
 
@@ -93,7 +100,7 @@ export const InboxPage: React.FC = () => {
                 key={email.id}
                 onClick={() => setSelectedEmail(email)}
                 className={`p-3.5 rounded-2xl cursor-pointer transition border text-xs ${
-                  selectedEmail.id === email.id
+                  selectedEmail?.id === email.id
                     ? 'bg-cyan-50/90 border-cyan-300 text-cyan-900 font-semibold shadow-sm'
                     : 'bg-slate-50/70 border-slate-100 text-slate-700 hover:bg-slate-100'
                 }`}
@@ -128,85 +135,91 @@ export const InboxPage: React.FC = () => {
         </div>
 
         {/* Detail & Reply Column */}
-        <div className="lg:col-span-2 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between space-y-4">
-          <div>
-            <div className="border-b border-slate-100 pb-4">
+        {selectedEmail ? (
+          <div className="lg:col-span-2 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between space-y-4">
+            <div>
+              <div className="border-b border-slate-100 pb-4">
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-cyan-100 px-3 py-1 text-xs font-bold text-cyan-800">
+                    {selectedEmail.jobTitle || 'Tin tuyển dụng'}
+                  </span>
+                  <span className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
+                    <CheckCheck size={16} /> Trạng thái: {selectedEmail.status}
+                  </span>
+                </div>
+
+                <h3 className="text-lg font-bold text-slate-900 mt-3">
+                  {selectedEmail.topic}
+                </h3>
+                <div className="flex items-center justify-between text-xs text-slate-500 mt-2">
+                  <span>
+                    Từ: <strong>{selectedEmail.sender}</strong> (
+                    {selectedEmail.recipientEmail})
+                  </span>
+                  <span>Thời gian: {selectedEmail.time}</span>
+                </div>
+              </div>
+
+              {/* Email Message Content */}
+              <div className="mt-4 p-4 rounded-2xl bg-slate-50 text-xs text-slate-800 leading-relaxed min-h-[160px] whitespace-pre-line border border-slate-100">
+                {selectedEmail.content}
+              </div>
+            </div>
+
+            {/* Quick Reply & Template Selection */}
+            <form
+              onSubmit={handleSendReply}
+              className="space-y-3 border-t border-slate-100 pt-4"
+            >
               <div className="flex items-center justify-between">
-                <span className="rounded-full bg-cyan-100 px-3 py-1 text-xs font-bold text-cyan-800">
-                  {selectedEmail.jobTitle || 'Tin tuyển dụng'}
-                </span>
-                <span className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
-                  <CheckCheck size={16} /> Trạng thái: {selectedEmail.status}
-                </span>
+                <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <Mail size={14} className="text-cyan-600" /> Soạn email gửi ứng viên:
+                </h4>
+                {/* Template selector */}
+                <div className="flex items-center gap-1.5 text-xs">
+                  <span className="text-slate-400 font-medium">Mẫu nhanh:</span>
+                  <select
+                    onChange={(e) => {
+                      if (e.target.value) handleSelectTemplate(e.target.value)
+                    }}
+                    className="rounded-xl border border-slate-200 bg-slate-50 px-2 py-1 text-[11px] font-medium text-slate-700 outline-none"
+                  >
+                    <option value="">-- Chọn Mẫu Email --</option>
+                    {EMAIL_TEMPLATES.map((tmpl, idx) => (
+                      <option key={idx} value={tmpl.content}>
+                        {tmpl.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              <h3 className="text-lg font-bold text-slate-900 mt-3">
-                {selectedEmail.topic}
-              </h3>
-              <div className="flex items-center justify-between text-xs text-slate-500 mt-2">
-                <span>
-                  Từ: <strong>{selectedEmail.sender}</strong> (
-                  {selectedEmail.recipientEmail})
+              <textarea
+                rows={4}
+                value={replyText}
+                onChange={(e) => setReplyText(e.target.value)}
+                placeholder="Nhập nội dung thư phản hồi ứng viên..."
+                className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-3 text-xs outline-none focus:border-cyan-500 focus:bg-white"
+              />
+
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-[11px] text-slate-400">
+                  Gửi từ tài khoản: <strong>{currentUser.email}</strong>
                 </span>
-                <span>Thời gian: {selectedEmail.time}</span>
-              </div>
-            </div>
-
-            {/* Email Message Content */}
-            <div className="mt-4 p-4 rounded-2xl bg-slate-50 text-xs text-slate-800 leading-relaxed min-h-[160px] whitespace-pre-line border border-slate-100">
-              {selectedEmail.content}
-            </div>
-          </div>
-
-          {/* Quick Reply & Template Selection */}
-          <form
-            onSubmit={handleSendReply}
-            className="space-y-3 border-t border-slate-100 pt-4"
-          >
-            <div className="flex items-center justify-between">
-              <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                <Mail size={14} className="text-cyan-600" /> Soạn email gửi ứng viên:
-              </h4>
-              {/* Template selector */}
-              <div className="flex items-center gap-1.5 text-xs">
-                <span className="text-slate-400 font-medium">Mẫu nhanh:</span>
-                <select
-                  onChange={(e) => {
-                    if (e.target.value) handleSelectTemplate(e.target.value)
-                  }}
-                  className="rounded-xl border border-slate-200 bg-slate-50 px-2 py-1 text-[11px] font-medium text-slate-700 outline-none"
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-cyan-600 px-5 py-2 text-xs font-semibold text-white hover:bg-cyan-700 shadow-md transition"
                 >
-                  <option value="">-- Chọn Mẫu Email --</option>
-                  {EMAIL_TEMPLATES.map((tmpl, idx) => (
-                    <option key={idx} value={tmpl.content}>
-                      {tmpl.name}
-                    </option>
-                  ))}
-                </select>
+                  <Send size={14} /> Gửi Email Phản hồi (PostgreSQL DB)
+                </button>
               </div>
-            </div>
-
-            <textarea
-              rows={4}
-              value={replyText}
-              onChange={(e) => setReplyText(e.target.value)}
-              placeholder="Nhập nội dung thư phản hồi ứng viên..."
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-3 text-xs outline-none focus:border-cyan-500 focus:bg-white"
-            />
-
-            <div className="flex items-center justify-between pt-1">
-              <span className="text-[11px] text-slate-400">
-                Gửi từ tài khoản: <strong>{currentUser.email}</strong>
-              </span>
-              <button
-                type="submit"
-                className="inline-flex items-center gap-2 rounded-2xl bg-cyan-600 px-5 py-2 text-xs font-semibold text-white hover:bg-cyan-700 shadow-md transition"
-              >
-                <Send size={14} /> Gửi Email Phản hồi (FR9)
-              </button>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
+        ) : (
+          <div className="lg:col-span-2 rounded-3xl border border-slate-200 bg-white p-12 text-center text-slate-400 text-xs">
+            Chưa chọn email nào
+          </div>
+        )}
       </div>
     </div>
   )

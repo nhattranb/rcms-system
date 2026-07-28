@@ -1,37 +1,24 @@
 import { create } from 'zustand'
 import { AuditLog } from '../types'
-import { INITIAL_AUDIT_LOGS } from '../services/mockData'
+import { fetchFromApi } from '../services/api'
 
 interface AuditLogStoreState {
   logs: AuditLog[]
-  addLog: (logData: {
-    userId: string
-    userName: string
-    action: string
-    details: string
-  }) => void
+  isLoading: boolean
+  fetchAuditLogs: () => Promise<void>
 }
 
 export const useAuditLogStore = create<AuditLogStoreState>((set) => ({
-  logs: INITIAL_AUDIT_LOGS,
+  logs: [],
+  isLoading: false,
 
-  addLog: ({ userId, userName, action, details }) =>
-    set((state) => {
-      const now = new Date()
-      const timestamp = `${now.toISOString().split('T')[0]} ${now.toLocaleTimeString(
-        'vi-VN',
-        { hour: '2-digit', minute: '2-digit', second: '2-digit' }
-      )}`
-
-      const newLog: AuditLog = {
-        id: `log-${Date.now()}`,
-        timestamp,
-        userId,
-        userName,
-        action,
-        details,
-      }
-
-      return { logs: [newLog, ...state.logs] }
-    }),
+  fetchAuditLogs: async () => {
+    set({ isLoading: true })
+    const logsData = await fetchFromApi<AuditLog[]>('/audit-logs')
+    if (logsData) {
+      set({ logs: logsData, isLoading: false })
+    } else {
+      set({ isLoading: false })
+    }
+  },
 }))

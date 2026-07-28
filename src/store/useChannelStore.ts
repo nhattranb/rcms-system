@@ -1,20 +1,18 @@
 import { create } from 'zustand'
 import { JobChannelPublishTrack, RecruitmentChannel } from '../types'
-import {
-  INITIAL_CHANNELS,
-  INITIAL_PUBLISH_TRACKS,
-} from '../services/mockData'
-import { useAuditLogStore } from './useAuditLogStore'
+import { fetchFromApi } from '../services/api'
 
 interface ChannelStoreState {
   channels: RecruitmentChannel[]
   publishTracks: JobChannelPublishTrack[]
+  isLoading: boolean
+  fetchChannelsAndTracks: () => Promise<void>
   togglePublishStatus: (
     jobId: string,
     channelId: string,
     userName?: string,
     userId?: string
-  ) => void
+  ) => Promise<void>
   addChannel: (
     channel: Omit<
       RecruitmentChannel,
@@ -22,115 +20,86 @@ interface ChannelStoreState {
     >,
     userName?: string,
     userId?: string
-  ) => void
+  ) => Promise<void>
   updateChannel: (
     id: string,
     updates: Partial<RecruitmentChannel>,
     userName?: string,
     userId?: string
-  ) => void
-  deleteChannel: (id: string, userName?: string, userId?: string) => void
+  ) => Promise<void>
+  deleteChannel: (id: string, userName?: string, userId?: string) => Promise<void>
 }
 
 export const useChannelStore = create<ChannelStoreState>((set) => ({
-  channels: INITIAL_CHANNELS,
-  publishTracks: INITIAL_PUBLISH_TRACKS,
+  channels: [],
+  publishTracks: [],
+  isLoading: false,
 
-  togglePublishStatus: (jobId, channelId, userName = 'System', userId = 'usr-1') =>
-    set((state) => {
-      const channel = state.channels.find((c) => c.id === channelId)
-      const existing = state.publishTracks.find(
-        (t) => t.jobId === jobId && t.channelId === channelId
-      )
+  fetchChannelsAndTracks: async () => {
+    set({ isLoading: true })
+    const channelsData = await fetchFromApi<RecruitmentChannel[]>('/channels')
+    const tracksData = await fetchFromApi<JobChannelPublishTrack[]>('/publish-tracks')
 
-      const nextStatus = existing
-        ? existing.status === 'Published'
-          ? 'Draft'
-          : 'Published'
-        : 'Published'
+    set({
+      channels: channelsData || [],
+      publishTracks: tracksData || [],
+      isLoading: false,
+    })
+  },
 
-      // Log Audit Event
-      useAuditLogStore.getState().addLog({
-        userId,
-        userName,
-        action: 'Publish Track',
-        details: `Cập nhật trạng thái phát hành kênh ${channel?.name || channelId} thành ${nextStatus}`,
-      })
+  togglePublishStatus: async (jobId, channelId, userName = 'System', userId = 'usr-1') => {
+    const updatedTrack = await fetchFromApi<JobChannelPublishTrack>(
+      '/publish-tracks/toggle',
+      {
+        method: 'POST',
+        body: JSON.stringify({ jobId, channelId, actorName: userName, actorId: userId }),
+      }
+    )
 
-      if (existing) {
-        return {
-          publishTracks: state.publishTracks.map((t) =>
-            t.jobId === jobId && t.channelId === channelId
-              ? {
-                  ...t,
-                  status: nextStatus,
-                  publishedDate:
-                    nextStatus === 'Published'
-                      ? new Date().toISOString().split('T')[0]
-                      : t.publishedDate,
-                }
-              : t
-          ),
+    if (updatedTrack) {
+      set((state) => {
+        const exists = state.publishTracks.some(
+          (t) => t.jobId === jobId && t.channelId === channelId
+        )
+        if (exists) {
+          return {
+            publishTracks: state.publishTracks.map((t) =>
+              t.jobId === jobId && t.channelId === channelId ? updatedTrack : t
+            ),
+          }
+        } else {
+          return { publishTracks: [...state.publishTracks, updatedTrack] }
         }
-      } else {
-        const newTrack: JobChannelPublishTrack = {
-          jobId,
-          channelId,
-          status: 'Published',
-          publishedDate: new Date().toISOString().split('T')[0],
-        }
-        return { publishTracks: [...state.publishTracks, newTrack] }
-      }
-    }),
-
-  addChannel: (channelData, userName = 'Admin', userId = 'usr-4') =>
-    set((state) => {
-      const newChannel: RecruitmentChannel = {
-        ...channelData,
-        id: `chn-${Date.now()}`,
-        activeJobsCount: 0,
-        totalCandidates: 0,
-      }
-
-      useAuditLogStore.getState().addLog({
-        userId,
-        userName,
-        action: 'Add Channel',
-        details: `Thêm kênh tuyển dụng mới: ${channelData.name} (${channelData.category})`,
       })
+    }
+  },
 
-      return { channels: [...state.channels, newChannel] }
-    }),
+  addChannel: async (channelData, userName = 'Admin', userId = 'usr-4') => {
+    const createdChannel = await fetchFromApi<RecruitmentChannel>('/channels', {
+      method: 'POST',
+      body: JSON.stringify({ ...channelData, actorName: userName, actorId: userId }),
+    })
 
-  updateChannel: (id, updates, userName = 'Admin', userId = 'usr-4') =>
-    set((state) => {
-      const channel = state.channels.find((c) => c.id === id)
-      useAuditLogStore.getState().addLog({
-        userId,
-        userName,
-        action: 'Update Channel',
-        details: `Cập nhật cấu hình kênh tuyển dụng: ${channel?.name || id}`,
-      })
+    if (createdChannel) {
+      set((state) => ({ channels: [...state.channels, createdChannel] }))
+    }
+  },
 
-      return {
-        channels: state.channels.map((c) =>
-          c.id === id ? { ...c, ...updates } : c
-        ),
-      }
-    }),
+  updateChannel: async (id, updates, userName = 'Admin', userId = 'usr-4') => {
+    const updatedChannel = await fetchFromApi<RecruitmentChannel>(`/channels/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ ...updates, actorName: userName, actorId: userId }),
+    })
 
-  deleteChannel: (id, userName = 'Admin', userId = 'usr-4') =>
-    set((state) => {
-      const channel = state.channels.find((c) => c.id === id)
-      useAuditLogStore.getState().addLog({
-        userId,
-        userName,
-        action: 'Delete Channel',
-        details: `Xóa kênh tuyển dụng: ${channel?.name || id}`,
-      })
+    if (updatedChannel) {
+      set((state) => ({
+        channels: state.channels.map((c) => (c.id === id ? updatedChannel : c)),
+      }))
+    }
+  },
 
-      return {
-        channels: state.channels.filter((c) => c.id !== id),
-      }
-    }),
+  deleteChannel: async (id) => {
+    await fetchFromApi(`/channels/${id}`, { method: 'DELETE' })
+    set((state) => ({ channels: state.channels.filter((c) => c.id !== id) }))
+  },
 }))

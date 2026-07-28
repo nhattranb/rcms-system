@@ -8,17 +8,17 @@ const EMAIL_TEMPLATES = [
   {
     name: 'Mẫu Lịch phỏng vấn Vòng 1',
     content:
-      'Chào bạn,\n\nBộ phận HR xin gửi lời mời phỏng vấn vòng 1 vị trí tuyển dụng vào lúc 14h00 ngày 30/07/2026 tại văn phòng THD Cyber Security...\n\nTrân trọng,',
+      'Chào bạn,\n\nBộ phận HR xin gửi lời mời phỏng vấn vòng 1 vị trí tuyển dụng: ... vào lúc ... ngày .../.../2026 tại văn phòng công ty. \n\nTrân trọng,',
   },
   {
     name: 'Mẫu Thư cảm ơn nộp CV',
     content:
-      'Chào bạn,\n\nCảm ơn bạn đã quan tâm và nộp hồ sơ ứng tuyển vào công ty chúng tôi. HR đã nhận được CV và sẽ liên hệ lại trong vòng 3 ngày làm việc...\n\nTrân trọng,',
+      'Chào bạn,\n\nCảm ơn bạn đã quan tâm và nộp hồ sơ ứng tuyển vào công ty chúng tôi. HR đã nhận được CV và sẽ liên hệ lại trong vòng 3-5 ngày làm việc. Do số lượng ứng viên nhiều, chúng tôi xin phép thông báo sớm để bạn có thời gian chuẩn bị.\n\nTrân trọng,',
   },
   {
     name: 'Mẫu Thư Đề xuất Nhận việc (Offer Letter)',
     content:
-      'Chào bạn,\n\nChúc mừng bạn! Công ty trân trọng gửi lời mời nhận việc vị trí tuyển dụng với mức lương và đãi ngộ như thảo luận...\n\nTrân trọng,',
+      'Chào bạn,\n\nChúc mừng bạn! Công ty trân trọng gửi lời mời nhận việc vị trí tuyển dụng với mức lương và đãi ngộ như thảo luận. Ngày .../.../2026, vui lòng có mặt tại công ty để hoàn tất các thủ tục liên quan.\n\nTrân trọng,',
   },
 ]
 

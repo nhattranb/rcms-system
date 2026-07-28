@@ -36,7 +36,7 @@ export const Sidebar: React.FC = () => {
           </div>
           <div>
             <h1 className="font-bold text-lg tracking-wide text-white">RCMS</h1>
-            <p className="text-xs text-slate-400">THD Cyber Security HR</p>
+            <p className="text-xs text-slate-400">Hệ thống quản lý tuyển dụng</p>
           </div>
         </div>
 
@@ -81,7 +81,7 @@ export const Sidebar: React.FC = () => {
 
         <div className="mt-3 flex items-center gap-1.5 text-xs text-emerald-400">
           <Sparkles size={13} />
-          <span>Hệ thống đạt Availability 99.9%</span>
+          <span className="font-semibold">Thử nghiệm</span>
         </div>
       </div>
     </aside>

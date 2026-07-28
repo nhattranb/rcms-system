@@ -76,17 +76,14 @@ export const ChannelsPage: React.FC = () => {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-xl font-bold text-slate-900">
-            Quản lý Kênh Tuyển dụng & Publish Tracking (FR3, FR4)
+            Quản lý Kênh Tuyển dụng & Publish Tracking
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Cấu hình danh mục kênh đăng tuyển và quản lý ma trận phát hành bài viết
-          </p>
         </div>
         <button
           onClick={handleOpenAdd}
           className="inline-flex items-center gap-2 rounded-2xl bg-cyan-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-cyan-700 transition"
         >
-          <Plus size={18} /> Thêm Kênh Tuyển dụng Mới (FR3)
+          <Plus size={18} /> Thêm Kênh Tuyển dụng Mới
         </button>
       </div>
 
@@ -168,10 +165,10 @@ export const ChannelsPage: React.FC = () => {
         <div>
           <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
             <Send size={18} className="text-cyan-600" />
-            Ma trận Theo dõi Đăng tuyển trên Kênh (Publish Tracking Matrix - FR4)
+            Ma trận Theo dõi Đăng tuyển trên Kênh (Publish Tracking Matrix)
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
-            Nhấp trực tiếp vào ô để chuyển đổi trạng thái bài đăng (`Published` ➔ `Draft`) cho từng vị trí
+            Vui lòng nhấp trực tiếp vào ô để chuyển đổi trạng thái bài đăng (`Published` ➔ `Draft`) cho từng vị trí
           </p>
         </div>
 

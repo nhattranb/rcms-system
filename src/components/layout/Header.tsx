@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
     .filter((j) => j.status === 'Pending Approval')
     .forEach((j) => {
       notifications.push({
-        text: `Vị trí "${j.title}" đang chờ duyệt (Pending Approval)`,
+        text: `Vị trí "${j.title}" đang chờ duyệt từ bộ phận HCNS/HR`,
         type: 'pending',
       })
     })
@@ -29,7 +29,7 @@ export const Header: React.FC = () => {
     .filter((j) => j.status === 'Expired')
     .forEach((j) => {
       notifications.push({
-        text: `Vị trí "${j.title}" đã hết hạn nhận hồ sơ (Expired)`,
+        text: `Vị trí "${j.title}" đã hết hạn nhận hồ sơ. Vui lòng chờ đợi dịp mở lại hoặc tạo mới.`,
         type: 'expired',
       })
     })
@@ -43,7 +43,7 @@ export const Header: React.FC = () => {
       ).length
       if (activeChannelsCount < 3) {
         notifications.push({
-          text: `Bài đăng "${j.title}" chưa được xuất bản trên đủ 3 kênh quy định (Hiện mới có ${activeChannelsCount} kênh)`,
+          text: `Bài đăng "${j.title}" chưa được xuất bản trên đủ các kênh quy định (Hiện mới có ${activeChannelsCount} kênh)`,
           type: 'channel',
         })
       }
@@ -51,7 +51,7 @@ export const Header: React.FC = () => {
 
   // Event 4: Candidate Email Replies
   notifications.push({
-    text: 'Có 1 email phản hồi mới từ ứng viên Phong Trần (Backend Developer)',
+    text: 'Có 1 email phản hồi mới từ ứng viên Backend Developer',
     type: 'email',
   })
 
@@ -110,7 +110,7 @@ export const Header: React.FC = () => {
               <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl z-50">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                   <span className="text-xs font-bold text-slate-900">
-                    Cảnh báo Tuyển dụng (FR11)
+                    Cảnh báo Tuyển dụng
                   </span>
                   <span className="text-[10px] bg-cyan-50 text-cyan-700 font-bold px-2 py-0.5 rounded-full">
                     {notifications.length} sự kiện

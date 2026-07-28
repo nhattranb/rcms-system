@@ -71,7 +71,7 @@ export const DashboardPage: React.FC = () => {
             {pendingJobsCount}
           </p>
           <p className="mt-2 text-xs font-medium text-amber-600">
-            Cần Trưởng phòng HCNS duyệt
+            Cần Trưởng phòng HCNS/HR duyệt
           </p>
         </div>
 
